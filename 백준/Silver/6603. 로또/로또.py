@@ -1,21 +1,19 @@
-from itertools import combinations
-import sys
-input = sys.stdin.readline
+def combi(arr, s, index, cnt):
+  if cnt == 6:
+    print(*arr)
+    return
+  
+  for i in range(index, len(s)):
+    arr[cnt] = s[i]
+    combi(arr, s, i+1, cnt+1)
 
 while 1:
   num_list = list(map(int, input().split()))
   k = num_list[0]
-  s = []
+  s = [0] * 6
 
-  for i in range(1, len(num_list)):
-    s.append(num_list[i])
-
-  combs = list(combinations(s, 6))
-  
-  for comb in combs:
-    print(*comb)
-
-  print()
-  
   if k == 0:
-    break
+    break 
+
+  combi(s, num_list[1:], 0, 0)
+  print()
