@@ -31,7 +31,6 @@ pic = [list(map(int, input().split())) for _ in range(n)]
 pic_area = []
 
 visited = [[False] * m for _ in range(n)]
-visited_1 = [[False] * m ] * n
 
 dx = [-1, 0, 1, 0]
 dy = [0, 1, 0, -1]
