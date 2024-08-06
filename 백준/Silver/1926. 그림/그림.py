@@ -17,7 +17,8 @@ def bfs(graph, visited, i, j):
 
       if nx < 0 or ny < 0 or nx >= n or ny >= m:
         continue
-
+      
+      # 그림 배열에서 이동한 값이 1이고 방문했으면 넓이에 1 더하고 방문처리
       if graph[nx][ny] == 1 and visited[nx][ny] == False:
         count += 1
         visited[nx][ny] = True
@@ -31,6 +32,9 @@ pic = [list(map(int, input().split())) for _ in range(n)]
 pic_area = []
 
 visited = [[False] * m for _ in range(n)]
+
+# 동일한 값을 참조하게 되서 불가능
+# visited = [[False] * m] * n
 
 dx = [-1, 0, 1, 0]
 dy = [0, 1, 0, -1]
