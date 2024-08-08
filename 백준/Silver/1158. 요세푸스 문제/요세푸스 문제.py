@@ -1,16 +1,16 @@
-import sys
 from collections import deque
+import sys
+input = sys.stdin.readline
 
-n, k = map(int, sys.stdin.readline().split())
+n, k = map(int, input().split())
 queue = deque([i for i in range(1, n + 1)])
 yos = []
+
 while queue:
-    for i in range(k - 1):
-        queue.append(queue.popleft())
-    yos.append(queue.popleft())
+  for i in range(k - 1):
+    queue.append(queue.popleft())
+  yos.append(queue.popleft())
 
-print("<", end = "")
-for i in range(n - 1):
-    print(str(yos[i]) + ",", end = " ")
-
-print(str(yos[-1]) + ">")
+print("<", end = '')
+print(*yos, sep = ', ', end = '')
+print(">")
