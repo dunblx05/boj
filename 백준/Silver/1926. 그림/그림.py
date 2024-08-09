@@ -2,47 +2,53 @@ from collections import deque
 import sys
 input = sys.stdin.readline
 
-def bfs(graph, visited, i, j):
-  queue = deque()
-  queue.append((i, j))
-  visited[i][j] = True
+def bfs(graph, start_x, start_y, visited):
   count = 1
+  queue = deque()
+  queue.append((start_x, start_y))
+  visited[start_x][start_y] = True
 
   while queue:
     x, y = queue.popleft()
 
-    for k in range(4):
-      nx = x + dx[k]
-      ny = y + dy[k]
-
+    for i in range(4):
+      nx = x + dx[i]
+      ny = y + dy[i]
+      
       if nx < 0 or ny < 0 or nx >= n or ny >= m:
         continue
       
-      # 그림 배열에서 이동한 값이 1이고 방문했으면 넓이에 1 더하고 방문처리
+      if graph[nx][ny] == 0:
+        continue
+
       if graph[nx][ny] == 1 and visited[nx][ny] == False:
-        count += 1
         visited[nx][ny] = True
+        count += 1
         queue.append((nx, ny))
-
+  
   return count
-        
-
-n, m = map(int, input().split())
-pic = [list(map(int, input().split())) for _ in range(n)]
-pic_area = []
-
-visited = [[False] * m for _ in range(n)]
-
-# 동일한 값을 참조하게 되서 불가능
-# visited = [[False] * m] * n
 
 dx = [-1, 0, 1, 0]
 dy = [0, 1, 0, -1]
 
+n, m = map(int, input().split())
+picture =[]
+picture_area = []
+visited = [[False for _ in range(m)] for _ in range(n)]
+
+for _ in range(n):
+  picture.append(list(map(int, input().split())))
+
+
 for i in range(n):
   for j in range(m):
-    if pic[i][j] == 1 and visited[i][j] == False:
-      pic_area.append(bfs(pic, visited, i, j))
+    if picture[i][j] == 1 and visited[i][j] == False:
+      area = bfs(picture, i, j, visited)
+      picture_area.append(area)
 
-print(len(pic_area))
-print(max(pic_area) if pic_area else 0)
+if picture_area:
+  print(len(picture_area))
+  print(max(picture_area))
+else:
+  print(0)
+  print(0)
