@@ -1,9 +1,10 @@
 from collections import deque
 import sys
+input = sys.stdin.readline
 
-def bfs(maze, x, y):
+def bfs(graph, start_x, start_y):
   queue = deque()
-  queue.append((x, y))
+  queue.append((start_x, start_y))
 
   while queue:
     x, y = queue.popleft()
@@ -12,23 +13,27 @@ def bfs(maze, x, y):
       nx = x + dx[i]
       ny = y + dy[i]
 
-      if nx < 0 or ny < 0 or nx >= n  or ny >= m:
+      if nx < 0 or ny < 0 or nx >= n or ny >= m:
         continue
-      if maze[nx][ny] == 0:
+      
+      if graph[nx][ny] == 0:
         continue
-      if maze[nx][ny] == 1:
-        maze[nx][ny] = maze[x][y] + 1
-        queue.append((nx, ny))
 
-input = sys.stdin.readline
+      if graph[nx][ny] == 1:
+        graph[nx][ny] = graph[x][y] + 1
+        queue.append((nx, ny))
+  
+  return graph[n-1][m-1]
+
+dx = [-1, 0, 1, 0]
+dy = [0, -1, 0, 1]
 
 n, m = map(int, input().split())
 maze = []
-dx = [-1, 0, 1, 0]
-dy = [0, 1, 0, -1]
 
-for _ in range(n):
+for i in range(n):
   maze.append(list(map(int, input().rstrip())))
 
-bfs(maze, 0, 0)
-print(maze[n-1][m-1])
+ans = bfs(maze, 0, 0)
+
+print(ans)
