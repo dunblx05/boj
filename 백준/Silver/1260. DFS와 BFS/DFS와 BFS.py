@@ -1,35 +1,62 @@
-import sys
 from collections import deque
+import sys
+input = sys.stdin.readline
 
-n, m, v = map(int, sys.stdin.readline().split())
-graph = [[0 for i in range(n + 1)] for i  in range(n + 1)]
-visited1 = [0 for i in range(n + 1)]
-visited2 = [0 for i in range(n + 1)]
+def bfs(graph, node, visited):
+  queue = deque()
+  queue.append(node)
+  visited[node] = True
+
+  while queue:
+    x = queue.popleft()
+    print(x, end = ' ')
+    for i in graph[x]:
+      if visited[i] == False:
+        queue.append(i)
+        visited[i] = True
+
+def dfs_recursion(graph, node, visited):
+  visited_dfs[node] = True
+  
+  print(node, end = ' ')
+
+  for i in graph[node]:
+    if not visited[i]:
+      dfs_recursion(graph, i, visited)
+
+def dfs_stack(graph, node, visited):
+  stack = [node]
+
+  while stack:
+    x = stack.pop()
+    if visited[x] == True:
+      continue
+    
+    visited[x] = True
+    print(x, end = ' ')
+    
+    # 거꾸로 탐색해야함
+    for i in reversed(graph[x]):
+      if visited[i] == False:
+        stack.append(i)
+
+n, m, v = map(int, input().split())
+graph = [[] for _ in range(n + 1)]
+visited_bfs = [False] * (n + 1)
+visited_dfs = [False] * (n + 1)
 
 for i in range(m):
-    start, end = map(int, sys.stdin.readline().split())
-    graph[start][end] = graph[end][start] = 1
+  s, e = map(int, input().split())
 
-def dfs(graph, v, visited):
-    visited[v] = 1
-    print(v, end = ' ')
-    for i in range(1, n + 1):
-        if visited[i] == 0 and graph[v][i] == 1:
-            dfs(graph, i, visited)
+  # 양방향 그래프
+  graph[s].append(e)
+  graph[e].append(s)
 
-def bfs(graph, v, visited):
-    q = deque()
-    q.append(v)
-    visited[v] = 1
-    
-    while q:
-        v = q.popleft()
-        print(v, end = ' ')
-        for i in range(1, n + 1):
-            if visited[i] == 0 and graph[v][i] == 1:
-                q.append(i)
-                visited[i] = 1
+# 작은 정점 먼저 출력
+for i in graph:
+  i.sort()
 
-dfs(graph, v, visited1)
-print( )
-bfs(graph, v, visited2)
+dfs_stack(graph, v, visited_dfs)
+# dfs_recursion(graph, v, visited_dfs)
+print()
+bfs(graph, v, visited_bfs)
