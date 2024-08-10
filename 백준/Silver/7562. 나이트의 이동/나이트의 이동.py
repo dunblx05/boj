@@ -9,6 +9,9 @@ def bfs(graph, start_x, start_y, visited):
   
   while queue:
     x, y = queue.popleft()
+    
+    if x == e_x and y == e_y:
+      return graph[e_x][e_y]
       
     for i in range(8):
       nx = x + dx[i]
