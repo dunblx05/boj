@@ -6,11 +6,6 @@ dx = [-1, 0, 1, 0]
 dy = [0, 1, 0, -1]
 
 def bfs(graph, visited, start_x, start_y, height):
-  # for i in range(n):
-  #   for j in range(n):
-  #     if graph[i][j] <= height:
-  #       graph[i][j] =0
-  
   queue = deque()
   queue.append((start_x, start_y))
   visited[start_x][start_y] = True
@@ -55,4 +50,3 @@ for h in range(max_h):
         ans = max(ans, len(safe_arr))
         
 print(ans)
- 
