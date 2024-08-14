@@ -33,6 +33,7 @@ while 1:
     robot[0] = 1
     a[0] -= 1
 
+  # 4. 내구도가 0인게 k이상이면 종료
   if a.count(0) >= k:
     break
 
