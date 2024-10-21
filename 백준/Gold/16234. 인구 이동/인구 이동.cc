@@ -17,17 +17,16 @@ int n, l, r, ans;
 int land[51][51];
 
 int bfs(pair<int, int> start, bool visited[51][51]) {
-    int population = 0;
     queue<pair<int, int> > q;
-    q.push({start.first, start.second});
+    q.emplace(start.first, start.second);
 
     vector<pair<int, int> > country;
-    country.push_back({start.first, start.second});
+    country.emplace_back(start.first, start.second);
 
     visited[start.first][start.second] = true;
 
     while (!q.empty()) {
-        auto cur = q.front();
+        const auto cur = q.front();
         q.pop();
 
         for (int i = 0; i < 4; ++i) {
@@ -38,30 +37,29 @@ int bfs(pair<int, int> start, bool visited[51][51]) {
                 continue;
             }
 
-            if (visited[nx][ny] == false && (l <= abs(land[nx][ny] - land[cur.first][cur.second]) && abs(
-                                                 land[nx][ny] - land[cur.first][cur.second]) <= r)) {
+            if (visited[nx][ny] == false && (l <= abs(land[nx][ny] - land[cur.first][cur.second]) && abs(land[nx][ny] - land[cur.first][cur.second]) <= r)) {
                 visited[nx][ny] = true;
-                q.push({nx, ny});
-                country.push_back({nx, ny});
+                q.emplace(nx, ny);
+                country.emplace_back(nx, ny);
             }
         }
     }
 
     if (country.size() <= 1) {
         return 0;
-    } else {
-        for (auto pos: country) {
-            population += land[pos.first][pos.second];
-        }
-
-        population = population / country.size();
-
-        for (auto pos: country) {
-            land[pos.first][pos.second] = population;
-        }
-
-        return 1;
     }
+    int population = 0;
+    for (const auto pos: country) {
+        population += land[pos.first][pos.second];
+    }
+
+    population = population / country.size();
+
+    for (const auto pos: country) {
+        land[pos.first][pos.second] = population;
+    }
+
+    return 1;
 }
 
 
@@ -80,11 +78,7 @@ int main() {
 
     while (true) {
         int flag = 0;
-        bool visited[51][51];
-
-        for (int i = 0; i < 51; ++i) {
-            fill(visited[i], visited[i] + 51, false);
-        }
+        bool visited[51][51] = {false, };
 
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
@@ -102,5 +96,4 @@ int main() {
     }
 
     cout << ans;
-
 }
