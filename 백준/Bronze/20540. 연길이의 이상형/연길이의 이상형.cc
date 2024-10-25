@@ -18,16 +18,10 @@ int main() {
 	cout.tie(nullptr);
 
 	string mbti;
-	unordered_map<string, string> flavor;
-	flavor.insert(make_pair("E", "I"));
-	flavor.insert(make_pair("S", "N"));
-	flavor.insert(make_pair("T", "F"));
-	flavor.insert(make_pair("J", "P"));
-
-	flavor.insert(make_pair("I", "E"));
-	flavor.insert(make_pair("N", "S"));
-	flavor.insert(make_pair("F", "T"));
-	flavor.insert(make_pair("P", "J"));
+	unordered_map<string, string> flavor = {
+	{"E", "I"}, {"S", "N"}, {"T", "F"}, {"J", "P"},
+	{"I", "E"}, {"N", "S"}, {"F", "T"}, {"P", "J"}
+	};
 
 	vector<string> ans;
 
