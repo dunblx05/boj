@@ -14,9 +14,6 @@ using namespace std;
 
 typedef long long ll;
 
-// 조합 결과를 저장할 전역 변수
-vector<vector<pair<int, int>>> result;
-
 int n, m;
 int answer = INT_MAX;
 int dx[] = { -1, 0, 1, 0 };
@@ -97,8 +94,6 @@ void bfs(vector<pair<int, int>>& current) {
 void generateCombinations(const vector<pair<int, int>>& arr, int r, int start, vector<pair<int, int>>& current) {
 	// 조합이 완성되었으면 전역 변수 result에 추가
 	if (current.size() == r) {
-		result.push_back(current);
-
 		// visit 초기화
 		memset(visited, false, sizeof(visited));
 		bfs(current);
@@ -139,5 +134,4 @@ int main() {
 	else {
 		cout << answer;
 	}
-
 }
