@@ -11,24 +11,18 @@
 using namespace std;
 
 #define endl '\n'
-#define INF INT_MAX
+#define INF 987654321
 
 typedef long long ll;
 
 int n, m;
-int dist[102][102];
 vector<vector<int>> graph;
-
-void setDistance() {
-}
 
 void floyd() {
 	for (int k = 1; k <= n; ++k) {
 		for (int i = 1; i <= n; ++i) {
 			for (int j = 1; j <= n; ++j) {
-				if (graph[i][k] != INF && graph[k][j] != INF) { // 경로가 있을 경우에만 갱신
-					graph[i][j] = min(graph[i][j], graph[i][k] + graph[k][j]);
-				}
+				graph[i][j] = min(graph[i][j], graph[i][k] + graph[k][j]);
 			}
 		}
 	}
