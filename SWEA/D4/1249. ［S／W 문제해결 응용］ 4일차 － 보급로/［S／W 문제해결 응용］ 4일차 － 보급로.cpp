@@ -1,30 +1,46 @@
 #include <iostream>
 #include <vector>
 #include <cstring>
+#include <algorithm>
 #include <queue>
 using namespace std;
 typedef long long ll;
 
-const int INF = 99999;
+const int INF = 987654321;
+
+struct Pos {
+	int cost;
+	int x;
+	int y;
+};
+
+struct comp {
+	bool operator() (Pos p1, Pos p2) {
+		return p1.cost > p2.cost;
+	}
+};
 
 int dx[] = { -1, 0, 1, 0 };
 int dy[] = { 0, 1, 0, -1 };
 
 int t;
 int n;
+int map[100][100];
 int cost[100][100];
 
-void bfs(vector<vector<int>> &map) {
-	queue<pair<int, int>> q;
-	q.push({ 0, 0 });
+void dijkstra() {
+	priority_queue<Pos, vector<Pos>, comp> pq;
+	pq.push({ 0, 0, 0 });
+
 	cost[0][0] = 0;
 
-	while (!q.empty()) {
-		auto cur = q.front();
-		q.pop();
+	while (!pq.empty()) {
+		auto cur = pq.top();
+		pq.pop();
 
-		int x = cur.first;
-		int y = cur.second;
+		int curCost = cur.cost;
+		int x = cur.x;
+		int y = cur.y;
 
 		for (int i = 0; i < 4; ++i) {
 			int nx = x + dx[i];
@@ -34,13 +50,15 @@ void bfs(vector<vector<int>> &map) {
 				continue;
 			}
 
-			if (map[nx][ny] + cost[x][y] < cost[nx][ny]) {
-				q.push({ nx, ny });
-				cost[nx][ny] = map[nx][ny] + cost[x][y];
+			if (cost[nx][ny] > curCost + map[nx][ny]) {
+				pq.push({ curCost + map[nx][ny], nx, ny });
+				cost[nx][ny] = curCost + map[nx][ny];
 			}
 
 		}
+
 	}
+
 }
 
 int main() {
@@ -52,20 +70,17 @@ int main() {
 
 	for (int tc = 1; tc <= t; ++tc) {
 		cin >> n;
-
-		vector<vector<int>> map(n, vector<int>(n, 0));
-
 		string str;
 
 		for (int i = 0; i < n; ++i) {
 			cin >> str;
 			for (int j = 0; j < n; ++j) {
-				cost[i][j] = INF;
 				map[i][j] = str[j] - '0';
+				cost[i][j] = INF;
 			}
 		}
 
-		bfs(map);
+		dijkstra();
 
 		cout << "#" << tc << " " << cost[n - 1][n - 1] << endl;
 
