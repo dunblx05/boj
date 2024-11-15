@@ -96,6 +96,6 @@ int main() {
 
         dijkstra();
 
-        cout << "Problem" << " " << tc << ": " << answer << endl;
+        cout << "Problem " << tc << ": " << answer << endl;
     }
 }
