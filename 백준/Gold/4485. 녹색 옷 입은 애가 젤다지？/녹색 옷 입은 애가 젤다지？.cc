@@ -15,7 +15,7 @@ int dy[] = {0, 1, 0, -1};
 
 int n;
 int cave[125][125];
-int visited[125][125];
+int dist[125][125];
 int answer;
 
 struct Link {
@@ -34,7 +34,7 @@ void dijkstra() {
     priority_queue<Link, vector<Link>, Comp> pq;
     pq.push({0, 0, cave[0][0]});
 
-    visited[0][0] = cave[0][0];
+    dist[0][0] = cave[0][0];
 
     while (!pq.empty()) {
         auto cur = pq.top();
@@ -44,7 +44,7 @@ void dijkstra() {
         int y = cur.y;
         int money = cur.money;
 
-        if (money > visited[x][y]) {
+        if (money > dist[x][y]) {
             continue;
         }
 
@@ -59,14 +59,14 @@ void dijkstra() {
             int nMoney = cave[nx][ny] + money;
 
             // 더 작은 값으로 이동할 수 있다면
-            if (visited[nx][ny] > nMoney) {
-                visited[nx][ny] = nMoney;
+            if (dist[nx][ny] > nMoney) {
+                dist[nx][ny] = nMoney;
                 pq.push({nx, ny, nMoney});
             }
         }
     }
 
-    answer = visited[n - 1][n - 1];
+    answer = dist[n - 1][n - 1];
 }
 
 int main() {
@@ -86,11 +86,11 @@ int main() {
 
         tc++;
         memset(cave, 0, sizeof(cave));
+        fill_n(&dist[0][0], 125 * 125, INF);
 
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
                 cin >> cave[i][j];
-                visited[i][j] = INF;
             }
         }
 
