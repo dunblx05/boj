@@ -31,8 +31,6 @@ int main() {
 
     sort(lesson.begin(), lesson.end());
 
-    pq.push(lesson[0].first);
-
     for (auto &i: lesson) {
         pq.push(i.second);
 
