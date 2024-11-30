@@ -1,46 +1,35 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
-#include <cstring>
-#include <climits>
 #include <queue>
-#include <cstdio>
+#include <algorithm>
 using namespace std;
-
-#define endl '\n'
 
 typedef long long ll;
 
 int n, m;
-int answer;
-vector<int> v[1001];
-vector<pair<int, int> > res;
-int inDegree[1001];
+vector<vector<int>> v;
+vector<int> inDegree;
+vector<int> result;  // 결과를 저장할 배열
 
 void tpSort() {
-    queue<pair<int, int> > q;
+    queue<pair<int, int>> q;
 
-    for (int i = 1; i < n; ++i) {
+    for (int i = 1; i <= n; ++i) {
         if (inDegree[i] == 0) {
             q.push({i, 1});
         }
     }
 
+    result.resize(n + 1, 0);  // 모든 노드의 레벨 저장
+
     while (!q.empty()) {
-        auto cur = q.front();
+        auto [x, level] = q.front();
         q.pop();
 
-        int x = cur.first;
-        int level = cur.second;
+        result[x] = level;  // 현재 노드의 레벨 저장
 
-        answer = max(level, answer);
-
-        res.push_back({x, level});
-
-        for (auto i: v[x]) {
-            inDegree[i]--;
-
-            if (inDegree[i] == 0) {
+        for (int i : v[x]) {
+            if (--inDegree[i] == 0) {
                 q.push({i, level + 1});
             }
         }
@@ -50,27 +39,26 @@ void tpSort() {
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    cout.tie(nullptr);
 
     cin >> n >> m;
+
+    v.resize(n + 1);
+    inDegree.resize(n + 1, 0);
 
     for (int i = 0; i < m; ++i) {
         int a, b;
         cin >> a >> b;
-
         v[a].push_back(b);
         inDegree[b]++;
     }
 
     tpSort();
 
-    sort(res.begin(), res.end());
-
-    for (int i = 0; i < n; ++i) {
-        if (res[i].second == 0) {
-            cout << 1 << " ";
-        } else {
-            cout << res[i].second << " ";
-        }
+    // 출력
+    for (int i = 1; i <= n; ++i) {
+        cout << result[i] << " ";
     }
+    cout << endl;
+
+    return 0;
 }
