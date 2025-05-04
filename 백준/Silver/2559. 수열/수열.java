@@ -6,33 +6,31 @@ import java.util.StringTokenizer;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
         StringTokenizer st = new StringTokenizer(br.readLine());
-
-        int answer = 0;
-
         int n = Integer.parseInt(st.nextToken());
         int k = Integer.parseInt(st.nextToken());
 
         int[] temperature = new int[n];
-
         st = new StringTokenizer(br.readLine());
-
         for (int i = 0; i < n; i++) {
             temperature[i] = Integer.parseInt(st.nextToken());
         }
 
+        // 첫 k일의 합으로 초기화
+        int sum = 0;
         for (int i = 0; i < k; i++) {
-            answer = answer + temperature[i];
+            sum += temperature[i];
         }
 
-        int temp = answer;
+        int max = sum;
 
+        // 슬라이딩 윈도우로 최대 합 계산
         for (int i = k; i < n; i++) {
-            temp = temp - temperature[i - k] + temperature[i];
-            answer = Math.max(answer, temp);
+            sum += temperature[i] - temperature[i - k];
+            max = Math.max(max, sum);
         }
 
-        System.out.println(answer);
-
+        System.out.println(max);
     }
 }
