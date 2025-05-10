@@ -6,25 +6,14 @@ class Solution {
         int maxW = 0;
         int maxH = 0;
         
-        for(int[] size : sizes) {
-            int w = size[0];
-            int h = size[1];
+        for (int[] size : sizes) {
+            int w = Math.min(size[0], size[1]);
+            int h = Math.max(size[0], size[1]);
             
-            if (w > h) {
-                size[0] = h;
-                size[1] = w;
-            }
+            maxW = Math.max(maxW, w);
+            maxH = Math.max(maxH, h);
         }
-        
-        for(int [] size: sizes) {
-            if(maxW < size[0]) {
-                maxW = size[0];
-            }
-            
-            if(maxH < size[1]) {
-                maxH = size[1];
-            }
-        }
+
         
         answer = maxW * maxH;
         
