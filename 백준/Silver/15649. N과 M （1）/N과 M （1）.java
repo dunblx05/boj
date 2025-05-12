@@ -1,53 +1,53 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
 
     static int n, m;
-    static List<List<Integer>> result;
-    static List<Boolean> visited;
+    static boolean[] visited;
+    static int[] arr;
+    static int[] per;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        n = Integer.parseInt(st.nextToken());  // ✅ 클래스 변수로 초기화
+        n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
 
-        List<Integer> arr = new ArrayList<>();
-        List<Integer> cur = new ArrayList<>();
-        result = new ArrayList<>();
-        visited = new ArrayList<>();
+        arr = new int[n];
+        // 순열 배열
+        per = new int[m];
 
-        for (int i = 1; i <= n; i++) {
-            arr.add(i);
-            visited.add(false);
+        for (int i = 0; i < n; i++) {
+            arr[i] = i + 1;
         }
 
-        permutation(arr, m, cur, visited);
+        visited = new boolean[n];
 
-        for (List<Integer> r : result) {
-            for (int num : r) {
-                System.out.print(num + " ");  // ✅ println → print 로 변경
-            }
-            System.out.println();
-        }
+        permutation(0);
+
     }
 
-    static void permutation(List<Integer> arr, int r, List<Integer> cur, List<Boolean> visited) {
-        if (cur.size() == r) {
-            result.add(new ArrayList<>(cur)); // ✅ 깊은 복사로 저장
+    static void permutation(int depth) {
+        // m개 선택했다면 종료
+        if (depth == m) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < m; i++) {
+                sb.append(per[i] + " ");
+            }
+            System.out.println(sb);
             return;
         }
 
-        for (int i = 0; i < arr.size(); i++) {
-            if (visited.get(i)) continue;
-
-            visited.set(i, true);
-            cur.add(arr.get(i));
-            permutation(arr, r, cur, visited);
-            cur.remove(cur.size() - 1);
-            visited.set(i, false);
+        for (int i = 0; i < n; i++) {
+            if (visited[i]) {
+                continue;
+            }
+            visited[i] = true;
+            per[depth] = arr[i];
+            permutation(depth + 1);
+            visited[i] = false;
         }
     }
 }
