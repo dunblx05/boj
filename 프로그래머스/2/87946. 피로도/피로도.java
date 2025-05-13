@@ -4,15 +4,16 @@ class Solution {
     
     private static List<int[][]> result;
     private static boolean[] visited;
+    private static int[][] cur;
     
     public int solution(int k, int[][] dungeons) {
         int answer = -1;
         visited = new boolean[dungeons.length];
         result = new ArrayList<>();
         // 현재 순열 저장 배열
-        int[][] cur = new int[dungeons.length][2];
+        cur = new int[dungeons.length][2];
         
-        permutation(dungeons, cur, 0);
+        permutation(dungeons, 0);
         
         for(int[][] perm : result) {
             int tired = k;
@@ -32,7 +33,7 @@ class Solution {
         return answer;
     }
     
-    private static void permutation(int dungeons[][], int[][] cur, int length) {
+    private static void permutation(int dungeons[][], int length) {
         if (length == dungeons.length) {
             // 완성된 순열 복사해서 저장
             int[][] copy = new int[dungeons.length][2];
@@ -50,7 +51,7 @@ class Solution {
             }
             visited[i] = true;
             cur[length] = dungeons[i];
-            permutation(dungeons, cur, length + 1);
+            permutation(dungeons, length + 1);
             visited[i] = false;
         }
     }
