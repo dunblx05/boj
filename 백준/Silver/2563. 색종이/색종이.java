@@ -17,7 +17,6 @@ public class Main {
 
         for (int i = 0; i < N; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
-
             int x = Integer.parseInt(st.nextToken());
             int y = Integer.parseInt(st.nextToken());
 
@@ -25,16 +24,8 @@ public class Main {
                 for (int k = y; k < y + 10; k++) {
                     if (arr[j][k] == 0) {
                         arr[j][k] = 1;
+                        count++;
                     }
-                }
-            }
-
-        }
-
-        for (int i = 0; i < 101; i++) {
-            for (int j = 0; j < 101; j++) {
-                if (arr[i][j] == 1) {
-                    count++;
                 }
             }
         }
